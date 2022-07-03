@@ -1,0 +1,8 @@
+name: CustomItems
+version: '${project.version}'
+main: org.andreis.mc.CustomItems
+api-version: 1.19
+authors: [ AndreiS ]
+commands:
+  kit: {}
+  setsecretchest: {}
