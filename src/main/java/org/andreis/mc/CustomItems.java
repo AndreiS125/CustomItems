@@ -54,7 +54,7 @@ public final class CustomItems extends JavaPlugin {
 
                             balleffects.Regen(pl);
                             pl.setHealth(h);
-                            
+
                         }
                         if (mainmeta.getLore().get(0).equals("alkash")) {
                             balleffects.alkash(pl);

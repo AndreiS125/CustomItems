@@ -2,18 +2,21 @@ package org.andreis.mc;
 
 
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
+import io.papermc.paper.event.player.PlayerTradeEvent;
 import org.bukkit.*;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerVelocityEvent;
+import org.bukkit.inventory.*;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class EventListener implements Listener {
@@ -48,6 +51,7 @@ public class EventListener implements Listener {
                     ballmanager.fillInventory("immune", e.getInventory());
                 }
                 if(r.nextInt(35)==3){
+
                     ballmanager.fillInventory("speed", e.getInventory());
                 }
             }
@@ -62,13 +66,39 @@ public class EventListener implements Listener {
 
         }}
 
-    @EventHandler
-    public void openInventory(PlayerMoveEvent e) {
+    //@EventHandler
+    public void openInventory(PlayerTradeEvent e) {
+        Villager vil =(Villager) Bukkit.getEntity(e.getVillager().getUniqueId());
         Player p = e.getPlayer();
             Particle.DustOptions options =  new Particle.DustOptions(Color.AQUA, 5.0F);
+        Merchant m = Bukkit.createMerchant(ChatColor.GREEN + "Ресурси");
+        ItemStack stack = new ItemStack(Material.ENCHANTED_BOOK,1);
+        ItemStack stack2 = new ItemStack(Material.TNT,1);
+        MerchantRecipe recipe1 = new MerchantRecipe(stack,20);
+        recipe1.addIngredient(new ItemStack(Material.STONE_PICKAXE,2));
 
 
-        p.spawnParticle(Particle.TOTEM, p.getLocation().add(10, 0, 0), 100);
+        MerchantRecipe recipe2 = new MerchantRecipe(stack2,20);
+        recipe2.addIngredient(new ItemStack(Material.STONE_AXE,1));
+
+        m.setRecipes(Arrays.asList(recipe1,recipe2));
+        vil.setRecipe(0, recipe1);
+        vil.setRecipe(1, recipe2);
+
+
+
+        p.openMerchant(m,false);
+        //p.spawnParticle(Particle.TOTEM, p.getLocation().add(10, 0, 0), 100);
            // p.spawnParticle(Particle.REDSTONE, p.getLocation().add(0, 0, 0), 50, options);
         }
+    @EventHandler
+    public void openInventory(PlayerVelocityEvent e) {
+
+
+
+
+
+        //p.spawnParticle(Particle.TOTEM, p.getLocation().add(10, 0, 0), 100);
+        // p.spawnParticle(Particle.REDSTONE, p.getLocation().add(0, 0, 0), 50, options);
+    }
 }
